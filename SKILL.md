@@ -472,18 +472,18 @@ Adapt any project-specific paths (project root, docs paths) to the new project.
 ### .claude/commands/summary.md
 
 ```markdown
-# /summary — Print Claude Setup Summary
+# /summary — Print Project Reference
 
-Reads `CLAUDESETUP.md` from the project root and prints its full contents to the console.
+Reads `PROJECT.md` from the project root and prints its full contents to the console.
 
 ## Steps
 
-1. Read `CLAUDESETUP.md` from the project root
+1. Read `PROJECT.md` from `$CLAUDE_PROJECT_DIR/PROJECT.md`
 2. Output the full content verbatim as formatted markdown
 
-If `CLAUDESETUP.md` does not exist, print:
+If `PROJECT.md` does not exist, print:
 
-> CLAUDESETUP.md not found. Run `/mgm-projectinit` to generate it.
+> PROJECT.md not found. Run `/mgm-projectinit` to generate it.
 ```
 
 ### .claude/commands/defaults.md
@@ -502,10 +502,11 @@ Displays the active defaults: permissions, model routing, shell rules, hooks, gi
 5. Print hook summary: guard_readonly.sh rules for curl/wget/rm/mv/cp
 ```
 
-### CLAUDESETUP.md
+### PROJECT.md
 
-Generate a compact setup reference file at the project root. Include:
+Generate a combined setup reference and initialization record file at the project root. Include:
 
+**Part 1 — Claude Code Setup:**
 - Project identity table (name, prefix, repo, developer, skill location)
 - File layout tree (`.claude/` structure, key project files)
 - Model routing table
@@ -515,8 +516,17 @@ Generate a compact setup reference file at the project root. Include:
 - Hooks table (event, matcher, handler)
 - guard_readonly.sh guard rules table
 - OpenWolf integration notes
-- Recurring skills table (`/phase-review`, `/phase-commit`, `/summary`, `/defaults`, `/mgm-projectinit`)
+- Skills & Commands table (`/phase-review`, `/phase-commit`, `/summary`, `/defaults`, `/mgm-projectinit`)
 - CHANGELOG convention
+
+**Part 2 — Initialization Record:**
+- What mgm-projectinit does (idempotent scaffold tool)
+- Bootstrap log (Steps 1–11 results)
+- Extended configuration phases (A–H results)
+- Files generated list
+- How phase tracking works
+- The mgm-aidevchat skill (locations, install)
+- Re-running mgm-projectinit (conflict resolution table per file)
 
 ---
 
@@ -531,7 +541,7 @@ After all files are written, print the following to the console (do not write to
 
 Claude Code setup:
    CLAUDE.md         — project system prompt
-   CLAUDESETUP.md    — full setup reference (/summary to view)
+   PROJECT.md        — full setup reference + init record (/summary to view)
    .claude/settings.json — permissions + hooks
    .claude/rules/shell-rules.md — atomic Bash rule
    .claude/hooks/guard_readonly.sh — curl/wget/path guard
@@ -555,7 +565,7 @@ Stage files explicitly (never `git add -A`). Run each `git add` as a separate ca
 
 ```bash
 git add CLAUDE.md
-git add CLAUDESETUP.md
+git add PROJECT.md
 git add .gitignore
 git add .claudeignore
 git add CHANGELOG.md
