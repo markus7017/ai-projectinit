@@ -63,40 +63,6 @@ The skill runs in two stages:
 
 ---
 
-## What gets created
-
-```
-project/
-├── CLAUDE.md                        # Project system prompt (dispatcher)
-├── CLAUDESETUP.md                   # Setup reference (/summary to view)
-├── CHANGELOG.md                     # Phase-level changelog
-├── PHASES.md                        # Sub-phase plan (after Phase H)
-├── .gitignore
-├── .claudeignore
-├── .claude/
-│   ├── settings.json                # Permissions + hooks
-│   ├── project-state.json           # Active role, phase, domains
-│   ├── rules/
-│   │   └── shell-rules.md           # Atomic Bash rule
-│   ├── hooks/
-│   │   ├── session_start.sh         # Project state on session start
-│   │   └── guard_readonly.sh        # curl/wget/rm/mv/cp guard
-│   ├── roles/                       # architect, developer, devops, security, tester, fach
-│   ├── workflow/                    # ground-rules, checkpoints, changelog, subproject-workflow
-│   ├── context/                     # decisions (ADRs), known-issues, project-plan
-│   ├── skills/
-│   │   ├── phase-review.md          # Independent sub-agent reviewer
-│   │   └── phase-commit.md          # Pre-commit checklist
-│   └── commands/
-│       ├── summary.md               # /summary
-│       └── defaults.md              # /defaults
-├── docs/
-│   ├── memory/                      # Per-phase design decisions
-│   └── reviews/                     # Sub-agent review reports
-└── skill/
-    └── <prefix>-skill.md            # Project skill stub
-```
-
 ---
 
 ## Phase & Sub-phase approach
@@ -212,6 +178,42 @@ The `guard_readonly.sh` hook uses the correct Claude Code hook protocol: `exit 0
 | `guard_readonly.sh` curl confirmation | Mutation requests prompt the user via `/dev/tty` with `[y/N]` — a clean decision point, not a tool failure |
 | Independent sub-agent reviewer | The reviewer runs in a separate context with no shared conversation state — its findings are written to `docs/reviews/`, not injected back into the main context |
 | Haiku/Sonnet/Opus routing | Simple/mechanical tasks use Haiku; standard development uses Sonnet; Opus only with explicit user approval — avoids over-spending tokens on routine work |
+
+---
+
+## What gets created
+
+```
+project/
+├── CLAUDE.md                        # Project system prompt (dispatcher)
+├── CLAUDESETUP.md                   # Setup reference (/summary to view)
+├── CHANGELOG.md                     # Phase-level changelog
+├── PHASES.md                        # Sub-phase plan (after Phase H)
+├── .gitignore
+├── .claudeignore
+├── .claude/
+│   ├── settings.json                # Permissions + hooks
+│   ├── project-state.json           # Active role, phase, domains
+│   ├── rules/
+│   │   └── shell-rules.md           # Atomic Bash rule
+│   ├── hooks/
+│   │   ├── session_start.sh         # Project state on session start
+│   │   └── guard_readonly.sh        # curl/wget/rm/mv/cp guard
+│   ├── roles/                       # architect, developer, devops, security, tester, fach
+│   ├── workflow/                    # ground-rules, checkpoints, changelog, subproject-workflow
+│   ├── context/                     # decisions (ADRs), known-issues, project-plan
+│   ├── skills/
+│   │   ├── phase-review.md          # Independent sub-agent reviewer
+│   │   └── phase-commit.md          # Pre-commit checklist
+│   └── commands/
+│       ├── summary.md               # /summary
+│       └── defaults.md              # /defaults
+├── docs/
+│   ├── memory/                      # Per-phase design decisions
+│   └── reviews/                     # Sub-agent review reports
+└── skill/
+    └── <prefix>-skill.md            # Project skill stub
+```
 
 ---
 
